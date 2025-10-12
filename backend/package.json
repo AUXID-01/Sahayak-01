@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "chokidar \"server.js\" \"src/**/*.js\" \"routes/**/*.js\" \"models/**/*.js\" -c \"node server.js\""
   },
   "keywords": [],
   "author": "",
@@ -17,5 +17,8 @@
     "mongodb": "^6.20.0",
     "mongoose": "^8.19.1",
     "nodemon": "^3.1.10"
+  },
+  "devDependencies": {
+    "chokidar-cli": "^3.0.0"
   }
 }
