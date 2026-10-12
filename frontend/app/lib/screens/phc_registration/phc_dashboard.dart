@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class PHCDashboard extends StatefulWidget {
-  const PHCDashboard({Key? key}) : super(key: key);
+  const PHCDashboard({super.key});
 
   @override
   State<PHCDashboard> createState() => _PHCDashboardState();
 }
 
 class _PHCDashboardState extends State<PHCDashboard> {
-  int _notificationCount = 5;
+  final int _notificationCount = 5;
 
   // Sample ASHA worker data
   final List<Map<String, dynamic>> ashaWorkers = [
@@ -1082,7 +1082,7 @@ class _PHCDashboardState extends State<PHCDashboard> {
 // ============ PLACEHOLDER PAGES ============
 
 class ImmunizationANCPage extends StatefulWidget {
-  const ImmunizationANCPage({Key? key}) : super(key: key);
+  const ImmunizationANCPage({super.key});
 
   @override
   State<ImmunizationANCPage> createState() => _ImmunizationANCPageState();
@@ -1125,7 +1125,7 @@ class _ImmunizationANCPageState extends State<ImmunizationANCPage> {
             child: Column(
               children: [
                 DropdownButtonFormField<String>(
-                  value: selectedType,
+                  initialValue: selectedType,
                   decoration: const InputDecoration(labelText: 'Type'),
                   items: ['Immunization', 'ANC Visit']
                       .map((type) => DropdownMenuItem(value: type, child: Text(type)))
@@ -1306,7 +1306,7 @@ class _ImmunizationANCPageState extends State<ImmunizationANCPage> {
 }
 
 class ReferralEmergencyPage extends StatefulWidget {
-  const ReferralEmergencyPage({Key? key}) : super(key: key);
+  const ReferralEmergencyPage({super.key});
 
   @override
   State<ReferralEmergencyPage> createState() => _ReferralEmergencyPageState();
@@ -1352,7 +1352,7 @@ class _ReferralEmergencyPageState extends State<ReferralEmergencyPage> {
           child: Column(
             children: [
               DropdownButtonFormField<String>(
-                value: selectedType,
+                initialValue: selectedType,
                 decoration: const InputDecoration(labelText: 'Type'),
                 items: ['Referral', 'Emergency']
                     .map((t) => DropdownMenuItem(value: t, child: Text(t)))
@@ -1370,7 +1370,7 @@ class _ReferralEmergencyPageState extends State<ReferralEmergencyPage> {
                 ),
               ),
               DropdownButtonFormField<String>(
-                value: selectedStatus,
+                initialValue: selectedStatus,
                 decoration: const InputDecoration(labelText: 'Status'),
                 items: ['Pending', 'Active', 'Completed']
                     .map((s) => DropdownMenuItem(value: s, child: Text(s)))
@@ -1448,7 +1448,7 @@ class _ReferralEmergencyPageState extends State<ReferralEmergencyPage> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            ...emergencies.map((e) => _buildEmergencyCard(e)).toList(),
+            ...emergencies.map((e) => _buildEmergencyCard(e)),
           ],
         ),
       ),
@@ -1559,7 +1559,7 @@ class _ReferralEmergencyPageState extends State<ReferralEmergencyPage> {
 }
 
 class MonitorAshaPage extends StatelessWidget {
-  const MonitorAshaPage({Key? key}) : super(key: key);
+  const MonitorAshaPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -1868,7 +1868,7 @@ class MonitorAshaPage extends StatelessWidget {
 }
 
 class PatientRecordsPage extends StatefulWidget {
-  const PatientRecordsPage({Key? key}) : super(key: key);
+  const PatientRecordsPage({super.key});
 
   @override
   State<PatientRecordsPage> createState() => _PatientRecordsPageState();
@@ -2141,7 +2141,7 @@ class _PatientRecordsPageState extends State<PatientRecordsPage> {
 }
 
 class StockSupplyPage extends StatefulWidget {
-  const StockSupplyPage({Key? key}) : super(key: key);
+  const StockSupplyPage({super.key});
 
   @override
   State<StockSupplyPage> createState() => _StockSupplyPageState();
@@ -2195,7 +2195,7 @@ class _StockSupplyPageState extends State<StockSupplyPage> {
           child: Column(
             children: [
               DropdownButtonFormField<String>(
-                value: selectedCategory,
+                initialValue: selectedCategory,
                 decoration: const InputDecoration(labelText: 'Category'),
                 items: ['Vaccine', 'Medicine', 'Supply']
                     .map((c) => DropdownMenuItem(value: c, child: Text(c)))
@@ -2435,7 +2435,7 @@ class _StockSupplyPageState extends State<StockSupplyPage> {
 }
 
 class HealthReportsPage extends StatefulWidget {
-  const HealthReportsPage({Key? key}) : super(key: key);
+  const HealthReportsPage({super.key});
 
   @override
   State<HealthReportsPage> createState() => _HealthReportsPageState();
@@ -2664,7 +2664,7 @@ class _HealthReportsPageState extends State<HealthReportsPage> {
 }
 
 class AlertsNotificationsPage extends StatefulWidget {
-  const AlertsNotificationsPage({Key? key}) : super(key: key);
+  const AlertsNotificationsPage({super.key});
 
   @override
   State<AlertsNotificationsPage> createState() =>
@@ -2931,8 +2931,7 @@ class _AlertsNotificationsPageState extends State<AlertsNotificationsPage> {
 class AshaWorkersListPage extends StatelessWidget {
   final List<Map<String, dynamic>> workers;
 
-  const AshaWorkersListPage({Key? key, required this.workers})
-    : super(key: key);
+  const AshaWorkersListPage({super.key, required this.workers});
 
   @override
   Widget build(BuildContext context) {

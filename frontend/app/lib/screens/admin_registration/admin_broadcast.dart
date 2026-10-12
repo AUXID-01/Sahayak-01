@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AdminBroadcastPage extends StatelessWidget {
+  const AdminBroadcastPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final controller = TextEditingController();

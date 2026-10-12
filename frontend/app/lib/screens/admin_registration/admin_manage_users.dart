@@ -8,6 +8,8 @@ class AdminManageUsersPage extends StatelessWidget {
     // mock data
   ];
 
+  AdminManageUsersPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -7,6 +7,8 @@ class ASHAAlertsPage extends StatelessWidget {
     {'alert': 'Patient in Ward 7 requests home visit.', 'time': '2 days ago'},
   ];
 
+  ASHAAlertsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

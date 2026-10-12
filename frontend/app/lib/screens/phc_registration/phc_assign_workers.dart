@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PHCAssignWorkersPage extends StatefulWidget {
+  const PHCAssignWorkersPage({super.key});
+
   @override
   _PHCAssignWorkersPageState createState() => _PHCAssignWorkersPageState();
 }
@@ -238,7 +240,23 @@ class _PHCAssignWorkersPageState extends State<PHCAssignWorkersPage> {
                       return;
                     }
 
-                    Navigator.pushNamed(context, '/phc/professional_info');
+                    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                    final userId = args?['user_id'] ?? '';
+                    final personal = args?['personal'] ?? {};
+                    final assignment = args?['assignment'] ?? {};
+
+                    Navigator.pushNamed(
+                      context,
+                      '/phc/professional_info',
+                      arguments: {
+                        'user_id': userId,
+                        'personal': personal,
+                        'assignment': assignment,
+                        'selectedWorkers': _selectedAshaWorkers,
+                        'autoAssign': _autoAssign,
+                        'notes': _notesController.text.trim(),
+                      },
+                    );
                   },
                 ),
               ),

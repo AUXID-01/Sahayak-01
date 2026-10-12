@@ -7,6 +7,8 @@ class PHCPatientRegistryPage extends StatelessWidget {
     {'name': 'Priya Verma', 'age': '4', 'status': 'Child Care'},
   ];
 
+  PHCPatientRegistryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

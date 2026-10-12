@@ -15,6 +15,8 @@ class ASHAProfilePage extends StatelessWidget {
   final String lastTraining = "Feb 2024";
   final String areaWard = "Ward 7";
 
+  const ASHAProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +87,7 @@ class ASHAProfilePage extends StatelessWidget {
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
+        SizedBox(
           width: 130,
           child: Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AdminSystemSummaryPage extends StatelessWidget {
+  const AdminSystemSummaryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

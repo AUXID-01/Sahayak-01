@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http; // ✅ Added this line
+
 import 'screens/signup_screen.dart';
 import 'screens/signin_screen.dart';
 import 'screens/choose_role_screen.dart';
@@ -38,10 +40,27 @@ import 'screens/admin_registration/admin_resource_allocation.dart';
 import 'screens/admin_registration/admin_summary.dart';
 import 'screens/admin_registration/admin_manage_users.dart';
 
+import 'services/auth_service.dart';
 
-void main() => runApp(MyApp());
+// ✅ Dynamic backend connection verification
+void testBackendConnection() async {
+  try {
+    final response = await http.get(Uri.parse("${AuthService.baseUrl}/"));
+    print("✅ Backend connection OK: ${response.statusCode}");
+    print("Response: ${response.body}");
+  } catch (e) {
+    print("❌ Could not connect to backend: $e");
+  }
+}
+
+void main() {
+  testBackendConnection(); // ✅ Call it once on app startup
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -68,7 +87,6 @@ class MyApp extends StatelessWidget {
         '/phc/assign_workers': (context) => PHCAssignWorkersPage(),
         '/phc/professional_info': (context) => PHCProfessionalInfoPage(),
 
-
         // FIXED: Pass phcData via arguments
         '/phc/review': (context)=> PHCReviewPage(),
         '/phc/dashboard': (context) => PHCDashboard(),
@@ -89,7 +107,7 @@ class MyApp extends StatelessWidget {
         '/admin/manage_users': (context) => AdminManageUsersPage(),
         '/admin/broadcast': (context) => AdminBroadcastPage(),
         '/admin/analytics': (context) => AdminAnalyticsPage(),
-        '/admin/resource_allocation': (context) =>AdminResourceAllocationPage(),
+        '/admin/resource_allocation': (context) => AdminResourceAllocationPage(),
         '/admin/profile': (context) => AdminProfilePage(),
       },
       onUnknownRoute: (settings) =>
@@ -99,7 +117,7 @@ class MyApp extends StatelessWidget {
 }
 
 class UnknownRoutePage extends StatelessWidget {
-  const UnknownRoutePage({Key? key}) : super(key: key);
+  const UnknownRoutePage({super.key});
 
   @override
   Widget build(BuildContext context) {

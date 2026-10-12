@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PHCInventoryAlertsPage extends StatelessWidget {
+  const PHCInventoryAlertsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

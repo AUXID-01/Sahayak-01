@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import '../../services/auth_service.dart';
 
 class ASHAReviewPage extends StatelessWidget {
+  const ASHAReviewPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Retrieve data passed from previous pages
@@ -116,13 +119,46 @@ class ASHAReviewPage extends StatelessWidget {
                 icon: Icon(Icons.check_circle_outline),
                 label: Text('Confirm & Proceed'),
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.teal,
                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/asha/dashboard');
+                onPressed: () async {
+                  final userId = args?['user_id'];
+                  if (userId != null && userId.toString().isNotEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Saving ASHA profile details...')),
+                    );
+
+                    final payload = {
+                      'user_id': userId,
+                      'date_of_birth': personal['dob'] ?? '01/01/1990',
+                      'gender': personal['gender'] ?? 'Female',
+                      'associated_phc': work['phc'] ?? 'PHC-Default',
+                      'address': {
+                        'state': work['state'] ?? '',
+                        'district': work['district'] ?? '',
+                        'village': work['village'] ?? '',
+                        'ward': work['area'] ?? '',
+                      },
+                      'training_completed': [
+                        if (training['years'] != null && training['years'].toString().isNotEmpty)
+                          '${training['years']} years served'
+                        else
+                          'General Community Training'
+                      ],
+                    };
+
+                    await AuthService().registerAshaDetails(payload);
+                  }
+
+                  Navigator.pushReplacementNamed(
+                    context,
+                    '/asha/dashboard',
+                    arguments: {'user_id': userId, 'personal': personal, 'work': work},
+                  );
                 },
               ),
             ),

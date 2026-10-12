@@ -6,6 +6,8 @@ class PHCCampaignSchedulesPage extends StatelessWidget {
     {'name': 'Malaria Testing', 'date': '14 Nov 2025'},
   ];
 
+  PHCCampaignSchedulesPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

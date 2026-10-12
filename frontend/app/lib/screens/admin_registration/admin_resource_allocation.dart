@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AdminResourceAllocationPage extends StatelessWidget {
+  const AdminResourceAllocationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PHCAssignmentPage extends StatefulWidget {
+  const PHCAssignmentPage({super.key});
+
   @override
   _PHCAssignmentPageState createState() => _PHCAssignmentPageState();
 }
@@ -57,7 +59,7 @@ class _PHCAssignmentPageState extends State<PHCAssignmentPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                value: _selectedState,
+                initialValue: _selectedState,
                 items: _states
                     .map(
                       (state) =>
@@ -85,7 +87,7 @@ class _PHCAssignmentPageState extends State<PHCAssignmentPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                value: _selectedDistrict,
+                initialValue: _selectedDistrict,
                 items:
                     (_selectedState != null
                             ? _districts[_selectedState]!
@@ -117,7 +119,7 @@ class _PHCAssignmentPageState extends State<PHCAssignmentPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                value: _selectedVillage,
+                initialValue: _selectedVillage,
                 items:
                     (_selectedDistrict != null
                             ? _villages[_selectedDistrict]!
@@ -186,7 +188,25 @@ class _PHCAssignmentPageState extends State<PHCAssignmentPage> {
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamed(context, '/phc/assign_workers');
+                      final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                      final userId = args?['user_id'] ?? '';
+                      final personal = args?['personal'] ?? {};
+
+                      Navigator.pushNamed(
+                        context,
+                        '/phc/assign_workers',
+                        arguments: {
+                          'user_id': userId,
+                          'personal': personal,
+                          'assignment': {
+                            'state': _selectedState ?? '',
+                            'district': _selectedDistrict ?? '',
+                            'village': _selectedVillage ?? '',
+                            'phcName': _phcController.text.trim(),
+                            'role': _roleController.text.trim(),
+                          },
+                        },
+                      );
                     }
                   },
                 ),

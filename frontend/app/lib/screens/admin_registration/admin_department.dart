@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AdminDepartmentPage extends StatefulWidget {
+  const AdminDepartmentPage({super.key});
+
   @override
   _AdminDepartmentPageState createState() => _AdminDepartmentPageState();
 }
@@ -55,7 +57,7 @@ class _AdminDepartmentPageState extends State<AdminDepartmentPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                value: _selectedRegion,
+                initialValue: _selectedRegion,
                 items: _regions
                     .map(
                       (region) =>
@@ -100,7 +102,7 @@ class _AdminDepartmentPageState extends State<AdminDepartmentPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                value: _selectedPermission,
+                initialValue: _selectedPermission,
                 items: _permissions
                     .map(
                       (level) =>
@@ -133,7 +135,23 @@ class _AdminDepartmentPageState extends State<AdminDepartmentPage> {
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamed(context, '/admin/assign_staff');
+                      final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                      final userId = args?['user_id'] ?? '';
+                      final personal = args?['personal'] ?? {};
+
+                      Navigator.pushNamed(
+                        context,
+                        '/admin/assign_staff',
+                        arguments: {
+                          'user_id': userId,
+                          'personal': personal,
+                          'department': {
+                            'region': _selectedRegion ?? '',
+                            'organization': _orgController.text.trim(),
+                            'permission': _selectedPermission ?? '',
+                          },
+                        },
+                      );
                     }
                   },
                 ),

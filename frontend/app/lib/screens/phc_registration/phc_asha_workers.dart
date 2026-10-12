@@ -6,6 +6,8 @@ class PHCAshaWorkersPage extends StatelessWidget {
     {'name': 'Pramod Rani', 'area': 'Village Center'},
   ];
 
+  PHCAshaWorkersPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

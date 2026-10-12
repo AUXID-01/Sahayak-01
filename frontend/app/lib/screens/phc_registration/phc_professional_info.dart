@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PHCProfessionalInfoPage extends StatefulWidget {
-  const PHCProfessionalInfoPage({Key? key}) : super(key: key);
+  const PHCProfessionalInfoPage({super.key});
 
   @override
   _PHCProfessionalInfoPageState createState() =>
@@ -97,8 +97,9 @@ class _PHCProfessionalInfoPageState extends State<PHCProfessionalInfoPage> {
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) return 'Enter experience';
-                  if (int.tryParse(value) == null)
+                  if (int.tryParse(value) == null) {
                     return 'Enter a valid number';
+                  }
                   return null;
                 },
               ),
@@ -111,12 +112,29 @@ class _PHCProfessionalInfoPageState extends State<PHCProfessionalInfoPage> {
                   label: Text('Next', style: TextStyle(fontSize: 16)),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Validation passed! (Demo only)'),
-                        ),
+                      final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                      final userId = args?['user_id'] ?? '';
+                      final personal = args?['personal'] ?? {};
+                      final assignment = args?['assignment'] ?? {};
+                      final selectedWorkers = args?['selectedWorkers'] ?? [];
+
+                      Navigator.pushNamed(
+                        context,
+                        '/phc/review',
+                        arguments: {
+                          'user_id': userId,
+                          'personal': personal,
+                          'assignment': assignment,
+                          'selectedWorkers': selectedWorkers,
+                          'professional': {
+                            'qualification': _qualificationController.text.trim(),
+                            'experience': _experienceController.text.trim(),
+                            'joinDate': _joinDate == null
+                                ? ''
+                                : '${_joinDate!.day}/${_joinDate!.month}/${_joinDate!.year}',
+                          },
+                        },
                       );
-                      Navigator.pushNamed(context, '/phc/review');
                     }
                   },
                 ),

@@ -9,8 +9,8 @@ class RoleCard extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class RoleCard extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 6,
         color: Colors.blue.shade50,
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           child: Center(
             child: Column(

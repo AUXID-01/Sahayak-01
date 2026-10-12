@@ -8,6 +8,8 @@ class ASHAReportsPage extends StatelessWidget {
     'Reports submitted': '6',
   };
 
+  ASHAReportsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

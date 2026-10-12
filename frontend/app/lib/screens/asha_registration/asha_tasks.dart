@@ -8,6 +8,8 @@ class ASHATasksPage extends StatelessWidget {
     "Check immunization supplies",
   ];
 
+  ASHATasksPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

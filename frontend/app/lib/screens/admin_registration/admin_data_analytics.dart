@@ -8,6 +8,8 @@ class AdminAnalyticsPage extends StatelessWidget {
     'Alerts Raised': '8',
   };
 
+  AdminAnalyticsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

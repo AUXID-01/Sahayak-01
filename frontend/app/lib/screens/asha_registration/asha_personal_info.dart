@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ASHAPersonalInfoPage extends StatefulWidget {
+  const ASHAPersonalInfoPage({super.key});
+
   @override
   _ASHAPersonalInfoPageState createState() => _ASHAPersonalInfoPageState();
 }
@@ -50,7 +52,7 @@ class _ASHAPersonalInfoPageState extends State<ASHAPersonalInfoPage> {
 
             // Gender dropdown
             DropdownButtonFormField<String>(
-              value: _selectedGender,
+              initialValue: _selectedGender,
               decoration: InputDecoration(
                 labelText: 'Gender',
                 prefixIcon: Icon(Icons.person_outline),
@@ -108,13 +110,17 @@ class _ASHAPersonalInfoPageState extends State<ASHAPersonalInfoPage> {
                   ),
                 ),
                 onPressed: () {
+                  final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                  final userId = args?['user_id'] ?? '';
+
                   // Send data to next page (Work Details)
                   Navigator.pushNamed(
                     context,
                     '/asha/work_details',
                     arguments: {
+                      'user_id': userId,
                       'personal': {
-                        'id': _idController.text,
+                        'id': _idController.text.trim(),
                         'gender': _selectedGender ?? '',
                         'dob': _selectedDate == null
                             ? ''

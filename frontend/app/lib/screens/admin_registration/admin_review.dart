@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../services/auth_service.dart';
 
 class AdminReviewPage extends StatelessWidget {
   final Map<String, dynamic>? adminData;
@@ -7,20 +8,26 @@ class AdminReviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Sample fallback data for demo (you can replace this with actual passed data)
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final userId = args?['user_id'];
+    final personal = args?['personal'] as Map<String, dynamic>? ?? {};
+    final department = args?['department'] as Map<String, dynamic>? ?? {};
+    final staff = args?['staff'] as Map<String, dynamic>? ?? {};
+
+    // Dynamic data with fallback
     final data =
         adminData ??
         {
-          'Official ID': 'ADM-1001',
-          'Name': 'Arjun Mehta',
-          'Contact': '+91 9876543210',
-          'Department Level': 'District Level',
-          'Organization': 'Health & Family Welfare',
-          'Permissions': 'Moderate Access',
-          'PHC Staff': 'Dr. Meera Sharma (PHC-101)',
-          'ASHA Worker': 'Rekha Devi (ASHA-201)',
-          'Auto-Approve': true,
-          'Resources': 'Assigned primary health kits and reporting tools',
+          'Official ID': personal['id'] ?? 'ADM-1001',
+          'Name': personal['name'] ?? 'Admin User',
+          'Contact': personal['contact'] ?? '+91 9876543210',
+          'Department Level': department['region'] ?? 'District Level',
+          'Organization': department['organization'] ?? 'Health & Family Welfare',
+          'Permissions': department['permission'] ?? 'Moderate Access',
+          'PHC Staff': staff['phcStaff'] ?? 'Dr. Meera Sharma (PHC-101)',
+          'ASHA Worker': staff['ashaWorker'] ?? 'Rekha Devi (ASHA-201)',
+          'Auto-Approve': staff['autoApprove'] ?? true,
+          'Resources': staff['resources'] ?? 'Assigned primary health kits and reporting tools',
         };
 
     return Scaffold(
@@ -109,6 +116,8 @@ class AdminReviewPage extends StatelessWidget {
                   icon: const Icon(Icons.check_circle_outline),
                   label: const Text('Confirm & Proceed'),
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                    foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 24,
                       vertical: 12,
@@ -117,8 +126,23 @@ class AdminReviewPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/admin/dashboard');
+                  onPressed: () async {
+                    if (userId != null && userId.toString().isNotEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Saving Administrator details...')),
+                      );
+
+                      final payload = {
+                        'user_id': userId,
+                        'roles': ['regionaladmin'],
+                        'permissions': [department['permission'] ?? 'Moderate Access'],
+                        'regions_managed': [department['region'] ?? 'District Level'],
+                      };
+
+                      await AuthService().registerAdminDetails(payload);
+                    }
+
+                    Navigator.pushReplacementNamed(context, '/admin/dashboard');
                   },
                 ),
               ],

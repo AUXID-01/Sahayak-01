@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ASHAWorkDetailsPage extends StatefulWidget {
+  const ASHAWorkDetailsPage({super.key});
+
   @override
   _ASHAWorkDetailsPageState createState() => _ASHAWorkDetailsPageState();
 }
@@ -40,7 +42,7 @@ class _ASHAWorkDetailsPageState extends State<ASHAWorkDetailsPage> {
           children: [
             // State dropdown
             DropdownButtonFormField<String>(
-              value: _selectedState,
+              initialValue: _selectedState,
               decoration: InputDecoration(
                 labelText: 'State',
                 prefixIcon: Icon(Icons.location_city_outlined),
@@ -65,7 +67,7 @@ class _ASHAWorkDetailsPageState extends State<ASHAWorkDetailsPage> {
 
             // District dropdown (based on selected state)
             DropdownButtonFormField<String>(
-              value: _selectedDistrict,
+              initialValue: _selectedDistrict,
               decoration: InputDecoration(
                 labelText: 'District',
                 prefixIcon: Icon(Icons.map_outlined),
@@ -158,7 +160,28 @@ class _ASHAWorkDetailsPageState extends State<ASHAWorkDetailsPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () => Navigator.pushNamed(context, '/asha/training'),
+                onPressed: () {
+                  final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                  final userId = args?['user_id'] ?? '';
+                  final personal = args?['personal'] ?? {};
+
+                  Navigator.pushNamed(
+                    context,
+                    '/asha/training',
+                    arguments: {
+                      'user_id': userId,
+                      'personal': personal,
+                      'work': {
+                        'state': _selectedState ?? '',
+                        'district': _selectedDistrict ?? '',
+                        'village': _villageController.text.trim(),
+                        'phc': _phcController.text.trim(),
+                        'area': _areaController.text.trim(),
+                        'supervisor': _supervisorController.text.trim(),
+                      },
+                    },
+                  );
+                },
               ),
             ),
           ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AdminDashboardPage extends StatefulWidget {
+  const AdminDashboardPage({super.key});
+
   @override
   _AdminDashboardPageState createState() => _AdminDashboardPageState();
 }
@@ -740,9 +742,9 @@ Widget _buildQuickActions() {
 
   // Dialog methods
   void _showAddUserDialog() {
-    final _nameController = TextEditingController();
-    final _emailController = TextEditingController();
-    final _phoneController = TextEditingController();
+    final nameController = TextEditingController();
+    final emailController = TextEditingController();
+    final phoneController = TextEditingController();
     String selectedRole = 'ASHA Worker';
 
     showDialog(
@@ -771,7 +773,7 @@ Widget _buildQuickActions() {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
-                  controller: _nameController,
+                  controller: nameController,
                   decoration: InputDecoration(
                     labelText: 'Full Name',
                     prefixIcon: Icon(Icons.person_outline),
@@ -784,7 +786,7 @@ Widget _buildQuickActions() {
                 ),
                 SizedBox(height: 16),
                 TextField(
-                  controller: _emailController,
+                  controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     labelText: 'Email Address',
@@ -798,7 +800,7 @@ Widget _buildQuickActions() {
                 ),
                 SizedBox(height: 16),
                 TextField(
-                  controller: _phoneController,
+                  controller: phoneController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     labelText: 'Phone Number',
@@ -812,7 +814,7 @@ Widget _buildQuickActions() {
                 ),
                 SizedBox(height: 16),
                 DropdownButtonFormField<String>(
-                  value: selectedRole,
+                  initialValue: selectedRole,
                   decoration: InputDecoration(
                     labelText: 'Role',
                     prefixIcon: Icon(Icons.badge_outlined),
@@ -849,8 +851,8 @@ Widget _buildQuickActions() {
             ),
             ElevatedButton(
               onPressed: () {
-                if (_nameController.text.isEmpty ||
-                    _emailController.text.isEmpty) {
+                if (nameController.text.isEmpty ||
+                    emailController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Please fill all required fields'),
@@ -867,7 +869,7 @@ Widget _buildQuickActions() {
                         Icon(Icons.check_circle, color: Colors.white),
                         SizedBox(width: 12),
                         Text(
-                          'User "${_nameController.text}" added successfully',
+                          'User "${nameController.text}" added successfully',
                         ),
                       ],
                     ),
@@ -896,7 +898,7 @@ Widget _buildQuickActions() {
   }
 
   void _showBroadcastDialog() {
-    final _messageController = TextEditingController();
+    final messageController = TextEditingController();
     String selectedAudience = 'All Users';
     String selectedPriority = 'Normal';
 
@@ -926,7 +928,7 @@ Widget _buildQuickActions() {
               mainAxisSize: MainAxisSize.min,
               children: [
                 DropdownButtonFormField<String>(
-                  value: selectedAudience,
+                  initialValue: selectedAudience,
                   decoration: InputDecoration(
                     labelText: 'Target Audience',
                     prefixIcon: Icon(Icons.group_outlined),
@@ -948,7 +950,7 @@ Widget _buildQuickActions() {
                 ),
                 SizedBox(height: 16),
                 DropdownButtonFormField<String>(
-                  value: selectedPriority,
+                  initialValue: selectedPriority,
                   decoration: InputDecoration(
                     labelText: 'Priority Level',
                     prefixIcon: Icon(Icons.flag_outlined),
@@ -968,7 +970,7 @@ Widget _buildQuickActions() {
                 ),
                 SizedBox(height: 16),
                 TextField(
-                  controller: _messageController,
+                  controller: messageController,
                   maxLines: 5,
                   decoration: InputDecoration(
                     labelText: 'Message Content',
@@ -991,7 +993,7 @@ Widget _buildQuickActions() {
             ),
             ElevatedButton(
               onPressed: () {
-                if (_messageController.text.isEmpty) {
+                if (messageController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Please enter a message'),
@@ -1080,7 +1082,7 @@ Widget _buildQuickActions() {
             Text('Available Reports'),
           ],
         ),
-        content: Container(
+        content: SizedBox(
           width: double.maxFinite,
           child: ListView.separated(
             shrinkWrap: true,
@@ -1220,7 +1222,7 @@ Widget _buildQuickActions() {
             Text('Stock Status'),
           ],
         ),
-        content: Container(
+        content: SizedBox(
           width: double.maxFinite,
           child: ListView.separated(
             shrinkWrap: true,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AdminPersonalInfoPage extends StatefulWidget {
+  const AdminPersonalInfoPage({super.key});
+
   @override
   _AdminPersonalInfoPageState createState() => _AdminPersonalInfoPageState();
 }
@@ -78,8 +80,23 @@ class _AdminPersonalInfoPageState extends State<AdminPersonalInfoPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, '/admin/department'),
+                onPressed: () {
+                  final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                  final userId = args?['user_id'] ?? '';
+
+                  Navigator.pushNamed(
+                    context,
+                    '/admin/department',
+                    arguments: {
+                      'user_id': userId,
+                      'personal': {
+                        'id': _idController.text.trim(),
+                        'name': _nameController.text.trim(),
+                        'contact': _contactController.text.trim(),
+                      },
+                    },
+                  );
+                },
               ),
             ),
           ],

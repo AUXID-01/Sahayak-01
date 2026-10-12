@@ -7,6 +7,8 @@ class ASHAImmunizationTrackerPage extends StatelessWidget {
     {'name': 'Rahul', 'vaccine': 'DPT', 'due': 'Nov 4'},
   ];
 
+  ASHAImmunizationTrackerPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

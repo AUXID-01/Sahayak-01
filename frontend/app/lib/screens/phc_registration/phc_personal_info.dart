@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PHCPersonalInfoPage extends StatefulWidget {
+  const PHCPersonalInfoPage({super.key});
+
   @override
   _PHCPersonalInfoPageState createState() => _PHCPersonalInfoPageState();
 }
@@ -58,7 +60,7 @@ class _PHCPersonalInfoPageState extends State<PHCPersonalInfoPage> {
 
               // Gender Dropdown
               DropdownButtonFormField<String>(
-                value: _selectedGender,
+                initialValue: _selectedGender,
                 decoration: InputDecoration(
                   labelText: 'Gender',
                   prefixIcon: Icon(Icons.wc_outlined),
@@ -119,7 +121,23 @@ class _PHCPersonalInfoPageState extends State<PHCPersonalInfoPage> {
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamed(context, '/phc/assignment');
+                      final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                      final userId = args?['user_id'] ?? '';
+
+                      Navigator.pushNamed(
+                        context,
+                        '/phc/assignment',
+                        arguments: {
+                          'user_id': userId,
+                          'personal': {
+                            'id': _idController.text.trim(),
+                            'gender': _selectedGender ?? '',
+                            'dob': _selectedDate == null
+                                ? ''
+                                : '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
+                          },
+                        },
+                      );
                     }
                   },
                 ),

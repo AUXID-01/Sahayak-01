@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../services/auth_service.dart';
 
 class PHCReviewPage extends StatelessWidget {
-  const PHCReviewPage({Key? key}) : super(key: key);
+  const PHCReviewPage({super.key});
 
   Widget _buildReviewItem(String title, String value) {
     return Padding(
@@ -18,19 +19,25 @@ class PHCReviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Demo Data Here
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final userId = args?['user_id'];
+    final personal = args?['personal'] as Map<String, dynamic>? ?? {};
+    final assignment = args?['assignment'] as Map<String, dynamic>? ?? {};
+    final professional = args?['professional'] as Map<String, dynamic>? ?? {};
+
+    // Dynamic data with fallback
     final Map<String, dynamic> phcData = {
-      'id': 'DEMO123',
-      'gender': 'Female',
-      'dob': '11/11/1980',
-      'state': 'Demo State',
-      'district': 'Demo District',
-      'village': 'Demo Village',
-      'phcName': 'Demo PHC',
-      'role': 'Nurse',
-      'qualification': 'BSc Nursing',
-      'joinDate': '10/10/2010',
-      'experience': '12',
+      'id': personal['id'] ?? 'DEMO123',
+      'gender': personal['gender'] ?? 'Female',
+      'dob': personal['dob'] ?? '11/11/1985',
+      'state': assignment['state'] ?? 'Maharashtra',
+      'district': assignment['district'] ?? 'Pune',
+      'village': assignment['village'] ?? 'Kothrud',
+      'phcName': assignment['phcName'] ?? 'PHC-001',
+      'role': assignment['role'] ?? 'Medical Officer',
+      'qualification': professional['qualification'] ?? 'MBBS / Nursing',
+      'joinDate': professional['joinDate'] ?? '10/10/2020',
+      'experience': professional['experience'] ?? '5',
     };
 
     return Scaffold(
@@ -83,13 +90,36 @@ class PHCReviewPage extends StatelessWidget {
                   style: TextStyle(fontSize: 16),
                 ),
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.teal,
+                  foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/phc/dashboard');
+                onPressed: () async {
+                  if (userId != null && userId.toString().isNotEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Saving PHC staff details...')),
+                    );
+
+                    final payload = {
+                      'user_id': userId,
+                      'date_of_birth': phcData['dob'] ?? '01/01/1985',
+                      'gender': phcData['gender'] ?? 'Female',
+                      'address': {
+                        'state': phcData['state'] ?? '',
+                        'district': phcData['district'] ?? '',
+                        'village': phcData['village'] ?? '',
+                      },
+                      'training_completed': [phcData['qualification'] ?? 'Medical Staff'],
+                      'permissions': ['Patient Registry', 'Inventory Alerts', 'ASHA Coordination'],
+                    };
+
+                    await AuthService().registerPhcDetails(payload);
+                  }
+
+                  Navigator.pushReplacementNamed(context, '/phc/dashboard');
                 },
               ),
             ),

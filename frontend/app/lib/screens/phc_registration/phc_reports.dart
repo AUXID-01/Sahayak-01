@@ -7,6 +7,8 @@ class PHCReportsPage extends StatelessWidget {
     'Missing data alerts': '4',
   };
 
+  PHCReportsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

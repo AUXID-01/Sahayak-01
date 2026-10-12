@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AdminAssignStaffPage extends StatefulWidget {
+  const AdminAssignStaffPage({super.key});
+
   @override
   _AdminAssignStaffPageState createState() => _AdminAssignStaffPageState();
 }
@@ -53,7 +55,7 @@ class _AdminAssignStaffPageState extends State<AdminAssignStaffPage> {
 
               // PHC Staff Dropdown
               DropdownButtonFormField<String>(
-                value: _selectedPhcStaff,
+                initialValue: _selectedPhcStaff,
                 decoration: InputDecoration(
                   labelText: 'Select PHC Staff',
                   prefixIcon: Icon(Icons.local_hospital_outlined),
@@ -79,7 +81,7 @@ class _AdminAssignStaffPageState extends State<AdminAssignStaffPage> {
 
               // ASHA Worker Dropdown
               DropdownButtonFormField<String>(
-                value: _selectedAshaWorker,
+                initialValue: _selectedAshaWorker,
                 decoration: InputDecoration(
                   labelText: 'Select ASHA Worker',
                   prefixIcon: Icon(Icons.woman_2_outlined),
@@ -149,7 +151,26 @@ class _AdminAssignStaffPageState extends State<AdminAssignStaffPage> {
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamed(context, '/admin/review');
+                      final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                      final userId = args?['user_id'] ?? '';
+                      final personal = args?['personal'] ?? {};
+                      final department = args?['department'] ?? {};
+
+                      Navigator.pushNamed(
+                        context,
+                        '/admin/review',
+                        arguments: {
+                          'user_id': userId,
+                          'personal': personal,
+                          'department': department,
+                          'staff': {
+                            'phcStaff': _selectedPhcStaff ?? '',
+                            'ashaWorker': _selectedAshaWorker ?? '',
+                            'autoApprove': _autoApprove,
+                            'resources': _resourcesController.text.trim(),
+                          },
+                        },
+                      );
                     }
                   },
                 ),

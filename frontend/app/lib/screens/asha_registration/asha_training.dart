@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ASHATrainingPage extends StatefulWidget {
+  const ASHATrainingPage({super.key});
+
   @override
   _ASHATrainingPageState createState() => _ASHATrainingPageState();
 }
@@ -83,7 +85,28 @@ class _ASHATrainingPageState extends State<ASHATrainingPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () => Navigator.pushNamed(context, '/asha/review'),
+                onPressed: () {
+                  final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+                  final userId = args?['user_id'] ?? '';
+                  final personal = args?['personal'] ?? {};
+                  final work = args?['work'] ?? {};
+
+                  Navigator.pushNamed(
+                    context,
+                    '/asha/review',
+                    arguments: {
+                      'user_id': userId,
+                      'personal': personal,
+                      'work': work,
+                      'training': {
+                        'years': _yearsController.text.trim(),
+                        'lastTraining': _lastTrainingDate == null
+                            ? ''
+                            : '${_lastTrainingDate!.day}/${_lastTrainingDate!.month}/${_lastTrainingDate!.year}',
+                      },
+                    },
+                  );
+                },
               ),
             ),
           ],

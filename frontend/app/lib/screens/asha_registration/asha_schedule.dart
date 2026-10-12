@@ -7,6 +7,8 @@ class ASHASchedulePage extends StatelessWidget {
     'Wednesday': ['11:00 - Vaccine delivery'],
   };
 
+  ASHASchedulePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
