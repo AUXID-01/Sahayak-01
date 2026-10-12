@@ -5,35 +5,29 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Environment variables
+# Environment variables & secrets
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
 
-# Logs
-logs
+# Logs & PIDs
+logs/
 *.log
-logs/*.log
-pids
+pids/
 *.pid
 *.seed
 *.pid.lock
 
-# Build output
+# Build & Coverage
 dist/
 build/
 coverage/
 
-# System files
+# OS & Editor Files
 .DS_Store
 Thumbs.db
-
-# VSCode
 .vscode/
-
-# Temporary files
-*.tmp
+.idea/
 *.swp
 *.swo
+*.tmp

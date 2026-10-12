@@ -1,39 +1,129 @@
-# Node dependencies
+# ==============================================================================
+# Sahayak Monorepo Root .gitignore
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Operating System & Editors
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# Editors & IDEs
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+*.swp
+*.swo
+*~
+*.bak
+
+# ------------------------------------------------------------------------------
+# Node.js / Backend
+# ------------------------------------------------------------------------------
 node_modules/
+**/node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
+.pnpm-store/
 
-# Environment variables
+# Environment Variables & Secrets
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
 
-# Logs
-logs
+# Node Runtime & Logs
+logs/
 *.log
-logs/*.log
-pids
+pids/
 *.pid
 *.seed
 *.pid.lock
 
-# Build output
-dist/
+# ------------------------------------------------------------------------------
+# Flutter / Dart / Mobile
+# ------------------------------------------------------------------------------
+.dart_tool/
+**/.dart_tool/
+.packages
+.pub-cache/
+.pub/
+**/build/
 build/
 coverage/
+**/coverage/
 
-# System files
-.DS_Store
-Thumbs.db
+# Flutter specific dependencies & builds
+.flutter-plugins
+.flutter-plugins-dependencies
+**/doc/api/
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Pods/
+**/ios/.symlinks/
+app.*.symbols
+app.*.map.json
+flutter_*.png
 
-# VSCode
-.vscode/
+# Android build outputs & SDK files
+**/android/.gradle/
+**/android/local.properties
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
 
-# Temporary files
+# Ephemeral Flutter working directories
+frontend/app/flutter/
+**/migrate_working_dir/
+
+# ------------------------------------------------------------------------------
+# Python / AI & ML
+# ------------------------------------------------------------------------------
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+*.ipynb_checkpoints/
+*.h5
+*.pkl
+*.onnx
+
+# ------------------------------------------------------------------------------
+# DevOps & Cloud
+# ------------------------------------------------------------------------------
+.terraform/
+*.tfstate
+*.tfstate.*
+*.dockerignore.bak
+dist/
+tmp/
 *.tmp
-*.swp
-*.swo

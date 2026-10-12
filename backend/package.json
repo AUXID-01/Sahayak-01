@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "chokidar \"server.js\" \"src/**/*.js\" \"routes/**/*.js\" \"models/**/*.js\" -c \"node server.js\""
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",

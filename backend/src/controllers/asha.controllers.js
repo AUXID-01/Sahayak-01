@@ -1,6 +1,7 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import User from "../models/user.model.js";
 import AshaWorker from "../models/asha.model.js";
+import { parseSafeDate } from "../utils/dateHelper.js";
 
 // Step 2: ASHA role-specific registration
 export const registerAshaDetails = asyncHandler(async (req, res) => {
@@ -17,18 +18,20 @@ export const registerAshaDetails = asyncHandler(async (req, res) => {
   } = req.body;
 
   if (!user_id || !date_of_birth || !gender || !associated_phc) {
-    return res.status(400).json({ message: "Required fields missing" });
+    return res.status(400).json({ success: false, message: "Required fields missing" });
   }
 
   const user = await User.findOne({ user_id });
-  if (!user) return res.status(404).json({ message: "Base user not found" });
+  if (!user) return res.status(404).json({ success: false, message: "Base user not found" });
 
   const existingAsha = await AshaWorker.findOne({ user_id });
-  if (existingAsha) return res.status(400).json({ message: "ASHA details already submitted" });
+  if (existingAsha) return res.status(400).json({ success: false, message: "ASHA details already submitted" });
+
+  const parsedDob = parseSafeDate(date_of_birth) || new Date();
 
   const asha = await AshaWorker.create({
     user_id,
-    date_of_birth,
+    date_of_birth: parsedDob,
     gender,
     associated_phc,
     photo_url,
@@ -42,6 +45,7 @@ export const registerAshaDetails = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json({
+    success: true,
     message: "ASHA worker details registered successfully",
     asha
   });

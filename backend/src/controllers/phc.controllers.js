@@ -1,6 +1,7 @@
 import asyncHandler from "../utils/asyncHandler.js";
 import User from "../models/user.model.js";
 import PHCStaff from "../models/phc.model.js";
+import { parseSafeDate } from "../utils/dateHelper.js";
 
 // Step 2: PHC role-specific registration
 export const registerPhcDetails = asyncHandler(async (req, res) => {
@@ -17,18 +18,20 @@ export const registerPhcDetails = asyncHandler(async (req, res) => {
   } = req.body;
 
   if (!user_id || !date_of_birth || !gender) {
-    return res.status(400).json({ message: "Required fields missing" });
+    return res.status(400).json({ success: false, message: "Required fields missing" });
   }
 
   const user = await User.findOne({ user_id });
-  if (!user) return res.status(404).json({ message: "Base user not found" });
+  if (!user) return res.status(404).json({ success: false, message: "Base user not found" });
 
   const existingPhc = await PHCStaff.findOne({ user_id });
-  if (existingPhc) return res.status(400).json({ message: "PHC details already submitted" });
+  if (existingPhc) return res.status(400).json({ success: false, message: "PHC details already submitted" });
+
+  const parsedDob = parseSafeDate(date_of_birth) || new Date();
 
   const phc = await PHCStaff.create({
     user_id,
-    date_of_birth,
+    date_of_birth: parsedDob,
     gender,
     photo_url,
     address: address || {},
@@ -41,6 +44,7 @@ export const registerPhcDetails = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json({
+    success: true,
     message: "PHC staff details registered successfully",
     phc
   });

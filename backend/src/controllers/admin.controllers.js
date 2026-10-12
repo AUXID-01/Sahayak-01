@@ -7,18 +7,18 @@ export const registerAdminDetails = asyncHandler(async (req, res) => {
   const { user_id, roles, permissions, regions_managed } = req.body;
 
   if (!user_id || !roles || roles.length === 0) {
-    return res.status(400).json({ message: "Required fields missing" });
+    return res.status(400).json({ success: false, message: "Required fields missing" });
   }
 
   const user = await User.findOne({ user_id });
-  if (!user) return res.status(404).json({ message: "Base user not found" });
+  if (!user) return res.status(404).json({ success: false, message: "Base user not found" });
 
   const existingAdmin = await Admin.findOne({ user_id });
-  if (existingAdmin) return res.status(400).json({ message: "Admin details already submitted" });
+  if (existingAdmin) return res.status(400).json({ success: false, message: "Admin details already submitted" });
 
   const validRoles = ["superadmin", "regionaladmin", "dataadmin"];
   const invalidRole = roles.some((r) => !validRoles.includes(r));
-  if (invalidRole) return res.status(400).json({ message: "Invalid admin role provided" });
+  if (invalidRole) return res.status(400).json({ success: false, message: "Invalid admin role provided" });
 
   const admin = await Admin.create({
     user_id,
@@ -30,6 +30,7 @@ export const registerAdminDetails = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json({
+    success: true,
     message: "Admin details registered successfully",
     admin
   });
